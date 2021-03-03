@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -25,6 +26,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 
+import javafx.scene.layout.VBox;
+import org.controlsfx.control.PopOver;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.Globals;
 import org.jabref.gui.LibraryTab;
@@ -91,6 +94,7 @@ public class EntryEditor extends BorderPane {
 
     @FXML private Button typeChangeButton;
     @FXML private Button fetcherButton;
+    @FXML private Button popOverButton;
     @FXML private Label typeLabel;
     @Inject private DialogService dialogService;
     @Inject private TaskExecutor taskExecutor;
@@ -215,6 +219,20 @@ public class EntryEditor extends BorderPane {
         GenerateCitationKeySingleAction action = new GenerateCitationKeySingleAction(getEntry(), databaseContext,
                 dialogService, preferencesService, undoManager);
         action.execute();
+    }
+
+    @FXML
+    void generatePopUpWindow(){
+        Label label1 = new Label("lorem ipsum");
+        VBox vBox = new VBox(label1);
+        vBox.setPrefHeight(400);
+        vBox.setPrefWidth(450);
+        vBox.setAlignment(Pos.TOP_CENTER);
+
+
+        PopOver popOver = new PopOver(vBox);
+        popOver.show(popOverButton);
+
     }
 
     @FXML
