@@ -13,11 +13,11 @@ public class JournalInfoTest {
     public void journalInfoTest() throws MalformedURLException {
         JournalInfo journalInfo = new JournalInfo("Nature Biomedical Engineering");
         JournalInfoModel journalInfoModel = journalInfo.getJournalFromAPI();
-
         assertEquals("ok", journalInfoModel.getStatus());
         assertEquals(journalInfoModel.getTitle(), "Nature Biomedical Engineering");
         assertEquals(journalInfoModel.getPublisher(), "Springer Science and Business Media LLC");
         assertEquals(journalInfoModel.getISSN(), "2157-846X");
+        assertEquals(2016, journalInfoModel.getDoisPerYears().get(0).getKey());
 
         journalInfo = new JournalInfo("Nature Biomedical sdsdsdsds");
         journalInfoModel = journalInfo.getJournalFromAPI();
