@@ -36,7 +36,6 @@ public class JournalInfo {
 
     public JournalInfoModel getJournalFromAPI(){
         StringBuffer response = new StringBuffer();
-
         try {
             HttpURLConnection con = (HttpURLConnection) this.url.openConnection();
             con.setRequestMethod("GET");
