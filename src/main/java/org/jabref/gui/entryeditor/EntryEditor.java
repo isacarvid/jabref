@@ -1,17 +1,14 @@
 package org.jabref.gui.entryeditor;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.sun.star.uno.Exception;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -54,9 +51,12 @@ import org.jabref.logic.TypedBibEntry;
 import org.jabref.logic.help.HelpFile;
 import org.jabref.logic.importer.EntryBasedFetcher;
 import org.jabref.logic.importer.WebFetchers;
+import org.jabref.logic.importer.fetcher.JournalInfo;
+import org.jabref.model.JournalInfoModel;
 import org.jabref.model.database.BibDatabaseContext;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.Field;
+import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.util.FileUpdateMonitor;
 import org.jabref.preferences.PreferencesService;
 
@@ -230,7 +230,6 @@ public class EntryEditor extends BorderPane {
 
     @FXML
     void generatePopUpWindow(){
-
         Label label1 = new Label("lorem ipsum");
         VBox vBox = new VBox(label1);
         vBox.setPrefHeight(400);
@@ -258,6 +257,7 @@ public class EntryEditor extends BorderPane {
         PopOver popOver = new PopOver(vBox);
         popOver.show(popOverButton);
     }
+
 
     @FXML
     private void navigateToPreviousEntry() {
