@@ -21,7 +21,7 @@ public class JournalInfo {
     private URL url;
     private String title = null;
 
-    JournalInfo(String title) throws MalformedURLException {
+    public JournalInfo(String title) throws MalformedURLException {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("query", title);
         try {
