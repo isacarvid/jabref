@@ -223,17 +223,18 @@ public class EntryEditor extends BorderPane {
 
     @FXML
     void generatePopUpWindow(){
-        JournalInfo request;
-        JournalInfoModel model = null;
-        VBox vBox;
-        try {
 
+        JournalInfo request;
+        JournalInfoModel model = new JournalInfoModel();
+        VBox vBox;
+
+       try {
             request = new JournalInfo(entry.getField(StandardField.JOURNAL).get());
             model = request.getJournalFromAPI();
         }catch(MalformedURLException e){
 
         }
-        if(model.getTitle().isEmpty()){
+       if(model.getTitle().isEmpty()){
             Label label1 = new Label("Cannot find Journal in database");
             vBox = new VBox(label1);
             vBox.setPrefHeight(200);
@@ -247,7 +248,7 @@ public class EntryEditor extends BorderPane {
             vBox.setPrefHeight(200);
             vBox.setPrefWidth(250);
             vBox.setAlignment(Pos.TOP_CENTER);
-        }
+       }
         PopOver popOver = new PopOver(vBox);
         popOver.show(popOverButton);
 
