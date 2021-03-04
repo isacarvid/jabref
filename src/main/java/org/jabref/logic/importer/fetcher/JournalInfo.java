@@ -36,7 +36,6 @@ public class JournalInfo {
 
     public JournalInfoModel getJournalFromAPI(){
         StringBuffer response = new StringBuffer();
-        System.out.println("före");
         try {
             HttpURLConnection con = (HttpURLConnection) this.url.openConnection();
             con.setRequestMethod("GET");
@@ -61,14 +60,12 @@ public class JournalInfo {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("mellan");
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
 
         Gson gson = builder.create();
 
         JournalInfoModel journalInfoModel = gson.fromJson(response.toString(), JournalInfoModel.class);
-        System.out.println("efter");
         System.out.println(gson.toJson(journalInfoModel));
         return journalInfoModel;
     }
