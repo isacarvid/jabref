@@ -8,10 +8,6 @@ import java.util.*;
 public class JournalInfoModel {
     private Message message;
 
-
-
-    private ArrayList<Pair<Integer, Integer>> doisPerYears = new ArrayList<>();
-
     public String getStatus() {
         return status;
     }
@@ -36,10 +32,11 @@ public class JournalInfoModel {
 
 
     public ArrayList<Pair<Integer, Integer>> getDoisPerYears() {
-        if(message == null){ return this.doisPerYears;}
+        ArrayList<Pair<Integer, Integer>> doisPerYears = new ArrayList<>();
+        if(message == null){ return doisPerYears;}
         ArrayList<ArrayList<Integer>> yearsAndDois = this.message.items[0].getBreakdowns().getDoisIssuedByYear();
         for(int i = 0; i < yearsAndDois.size(); i++){
-            this.doisPerYears.add(new Pair<>(yearsAndDois.get(i).get(0),  yearsAndDois.get(i).get(1)));
+            doisPerYears.add(new Pair<>(yearsAndDois.get(i).get(0),  yearsAndDois.get(i).get(1)));
         }
 
         Collections.sort(doisPerYears, new Comparator<Pair<Integer, Integer>>() {
@@ -49,7 +46,7 @@ public class JournalInfoModel {
                 return i;
             }
         });
-        return this.doisPerYears;
+        return doisPerYears;
     }
 
     public String getISSN() {
