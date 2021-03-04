@@ -25,9 +25,16 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
-
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.PopOver;
+
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
+
 import org.jabref.gui.DialogService;
 import org.jabref.gui.Globals;
 import org.jabref.gui.LibraryTab;
@@ -223,16 +230,33 @@ public class EntryEditor extends BorderPane {
 
     @FXML
     void generatePopUpWindow(){
+
         Label label1 = new Label("lorem ipsum");
         VBox vBox = new VBox(label1);
         vBox.setPrefHeight(400);
         vBox.setPrefWidth(450);
         vBox.setAlignment(Pos.TOP_CENTER);
 
+        int[] sampleXArray = new int[] {2015, 2016, 2017};
+        int[] sampleYArray = new int[] {20, 35, 5};
+
+        final NumberAxis xAxis = new NumberAxis(sampleXArray[0]-1,sampleXArray[sampleXArray.length-1]+1, 1);
+        final NumberAxis yAxis = new NumberAxis();
+        final ScatterChart<Number,Number> sc = new ScatterChart<Number,Number>(xAxis,yAxis);
+
+        XYChart.Series series = new XYChart.Series();
+        for (int i = 0; i < sampleXArray.length; i++) {
+            series.getData().add(new XYChart.Data(sampleXArray[i], sampleYArray[i]));
+        }
+        sc.getData().addAll(series);
+        sc.setLegendVisible(false);
+
+        xAxis.setLabel("Year");
+        yAxis.setLabel("# Published ISOs");
+        vBox.getChildren().addAll(sc);
 
         PopOver popOver = new PopOver(vBox);
         popOver.show(popOverButton);
-
     }
 
     @FXML
