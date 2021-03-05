@@ -249,38 +249,38 @@ public class EntryEditor extends BorderPane {
             vBox.setPrefWidth(250);
             vBox.setAlignment(Pos.TOP_CENTER);
        } else {
-               Label label1 = new Label("Title: " + model.getTitle());
-               Label label2 = new Label("Publisher: " + model.getPublisher());
-               Label label3 = new Label("ISSN: " + model.getISSN());
+           Label label1 = new Label("Title: " + model.getTitle());
+           Label label2 = new Label("Publisher: " + model.getPublisher());
+           Label label3 = new Label("ISSN: " + model.getISSN());
 
-               int nbYears = model.getDoisPerYears().size();
+           int nbYears = model.getDoisPerYears().size();
 
-               int[] years = new int[nbYears];
-               int[] dois = new int[nbYears];
-               for (int i = 0; i < nbYears; i++) {
-                   years[i] = model.getDoisPerYears().get(i).getKey();
-                   dois[i] = model.getDoisPerYears().get(i).getValue();
-               }
+           int[] years = new int[nbYears];
+           int[] dois = new int[nbYears];
+           for (int i = 0; i < nbYears; i++) {
+               years[i] = model.getDoisPerYears().get(i).getKey();
+               dois[i] = model.getDoisPerYears().get(i).getValue();
+           }
 
-               final NumberAxis xAxis = new NumberAxis(years[0] - 1, years[years.length - 1] + 1, 1);
-               final NumberAxis yAxis = new NumberAxis();
-               final ScatterChart<Number, Number> sc = new ScatterChart<Number, Number>(xAxis, yAxis);
+           final NumberAxis xAxis = new NumberAxis(years[0] - 1, years[years.length - 1] + 1, 1);
+           final NumberAxis yAxis = new NumberAxis();
+           final ScatterChart<Number, Number> sc = new ScatterChart<Number, Number>(xAxis, yAxis);
 
-               XYChart.Series series = new XYChart.Series();
-               for (int i = 0; i < years.length; i++) {
-                   series.getData().add(new XYChart.Data(years[i], dois[i]));
-               }
-               sc.getData().addAll(series);
-               sc.setLegendVisible(false);
+           XYChart.Series series = new XYChart.Series();
+           for (int i = 0; i < years.length; i++) {
+               series.getData().add(new XYChart.Data(years[i], dois[i]));
+           }
+           sc.getData().addAll(series);
+           sc.setLegendVisible(false);
 
-               xAxis.setLabel("Year");
-               yAxis.setLabel("# Published ISOs");
+           xAxis.setLabel("Year");
+           yAxis.setLabel("# Published ISOs");
 
-               vBox = new VBox(label1, label2, label3);
-               vBox.getChildren().addAll(sc);
-               vBox.setPrefHeight(400);
-               vBox.setPrefWidth(450);
-               vBox.setAlignment(Pos.TOP_CENTER);
+           vBox = new VBox(label1, label2, label3);
+           vBox.getChildren().addAll(sc);
+           vBox.setPrefHeight(400);
+           vBox.setPrefWidth(450);
+           vBox.setAlignment(Pos.TOP_CENTER);
        }
        PopOver popOver = new PopOver(vBox);
        popOver.show(popOverButton);
