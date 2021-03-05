@@ -234,8 +234,9 @@ public class EntryEditor extends BorderPane {
         JournalInfoModel model = new JournalInfoModel();
         VBox vBox;
        try {
-           if(!entry.getField(StandardField.JOURNAL).get().isEmpty()) {
-               request = new JournalInfo(entry.getField(StandardField.JOURNAL).get());
+           String journal = entry.getField(StandardField.JOURNAL).orElse("");
+           if(journal != "") {
+               request = new JournalInfo(journal);
                model = request.getJournalFromAPI();
            }
         }catch(MalformedURLException e){
