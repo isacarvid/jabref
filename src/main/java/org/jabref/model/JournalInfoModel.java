@@ -3,7 +3,10 @@ package org.jabref.model;
 import com.google.gson.annotations.SerializedName;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class JournalInfoModel {
     private Message message;
