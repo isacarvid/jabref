@@ -34,6 +34,9 @@ public class JournalInfo {
     }
 
     public JournalInfoModel getJournalFromAPI(){
+        if(this.title == null){
+            return new JournalInfoModel();
+        }
         StringBuffer response = new StringBuffer();
         try {
             HttpURLConnection con = (HttpURLConnection) this.url.openConnection();
@@ -58,7 +61,6 @@ public class JournalInfo {
         builder.setPrettyPrinting();
 
         Gson gson = builder.create();
-
         JournalInfoModel journalInfoModel = gson.fromJson(response.toString(), JournalInfoModel.class);
         return journalInfoModel;
     }

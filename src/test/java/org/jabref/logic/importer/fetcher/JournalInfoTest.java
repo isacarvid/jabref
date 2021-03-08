@@ -1,10 +1,10 @@
 package org.jabref.logic.importer.fetcher;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.jabref.model.JournalInfoModel;
 import org.junit.jupiter.api.Test;
-
 import java.net.MalformedURLException;
 
 public class JournalInfoTest {
@@ -14,6 +14,7 @@ public class JournalInfoTest {
      */
     @Test
     public void testPartialResponse() throws MalformedURLException {
+
         JournalInfo journalInfo = new JournalInfo("A General Approach to Panel Data Set-Theoretic Research");
         JournalInfoModel journalInfoModel = journalInfo.getJournalFromAPI();
 
@@ -45,7 +46,7 @@ public class JournalInfoTest {
         JournalInfo journalInfo = new JournalInfo("");
         JournalInfoModel journalInfoModel = journalInfo.getJournalFromAPI();
 
-        assertEquals("ok", journalInfoModel.getStatus());
+        assertEquals("", journalInfoModel.getStatus());
         assertEquals(journalInfoModel.getTitle(), "");
         assertEquals(journalInfoModel.getPublisher(), "");
         assertEquals(journalInfoModel.getISSN(), "");

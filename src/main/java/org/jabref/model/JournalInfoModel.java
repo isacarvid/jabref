@@ -29,6 +29,7 @@ public class JournalInfoModel {
         this.message = message;
     }
     public String getTitle() {
+
         if(message == null) return "";
         return message.getItems().length == 0? "" : message.items[0].getTitle();
     }
@@ -54,7 +55,7 @@ public class JournalInfoModel {
 
     public String getISSN() {
         if(message == null) return "";
-        return message.getItems().length == 0? "" : message.items[0].getISSN()[0];
+        return message.getItems().length == 0 || message.items[0].getISSN().length ==0? "" : message.items[0].getISSN()[0];
     }
 
 
@@ -65,7 +66,7 @@ public class JournalInfoModel {
 
 
     public JournalInfoModel(){
-
+        this.status = "";
     }
 
 
