@@ -1,6 +1,7 @@
 package org.jabref.gui.entryeditor;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.sun.star.uno.Exception;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -24,6 +27,15 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import org.controlsfx.control.PopOver;
+
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 
 import org.jabref.gui.DialogService;
 import org.jabref.gui.Globals;
@@ -44,9 +56,12 @@ import org.jabref.logic.TypedBibEntry;
 import org.jabref.logic.help.HelpFile;
 import org.jabref.logic.importer.EntryBasedFetcher;
 import org.jabref.logic.importer.WebFetchers;
+import org.jabref.logic.importer.fetcher.JournalInfo;
+import org.jabref.model.JournalInfoModel;
 import org.jabref.model.database.BibDatabaseContext;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.Field;
+import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.util.FileUpdateMonitor;
 import org.jabref.preferences.PreferencesService;
 
@@ -91,6 +106,7 @@ public class EntryEditor extends BorderPane {
 
     @FXML private Button typeChangeButton;
     @FXML private Button fetcherButton;
+    @FXML private Button popOverButton;
     @FXML private Label typeLabel;
     @Inject private DialogService dialogService;
     @Inject private TaskExecutor taskExecutor;
@@ -215,6 +231,64 @@ public class EntryEditor extends BorderPane {
         GenerateCitationKeySingleAction action = new GenerateCitationKeySingleAction(getEntry(), databaseContext,
                 dialogService, preferencesService, undoManager);
         action.execute();
+    }
+
+    @FXML
+    void generatePopUpWindow(){
+        JournalInfo request;
+        JournalInfoModel model = new JournalInfoModel();
+        VBox vBox;
+       try {
+           String journal = entry.getField(StandardField.JOURNAL).orElse("");
+           if(journal != "") {
+               request = new JournalInfo(journal);
+               model = request.getJournalFromAPI();
+           }
+        }catch(MalformedURLException e){
+           System.err.println(e);
+        }
+       if(model.getTitle().isEmpty()){
+            Label label1 = new Label("Cannot find Journal in database");
+            vBox = new VBox(label1);
+            vBox.setPrefHeight(200);
+            vBox.setPrefWidth(250);
+            vBox.setAlignment(Pos.TOP_CENTER);
+       } else {
+           Label label1 = new Label("Title: " + model.getTitle());
+           Label label2 = new Label("Publisher: " + model.getPublisher());
+           Label label3 = new Label("ISSN: " + model.getISSN());
+
+           int nbYears = model.getDoisPerYears().size();
+
+           int[] years = new int[nbYears];
+           int[] dois = new int[nbYears];
+           for (int i = 0; i < nbYears; i++) {
+               years[i] = model.getDoisPerYears().get(i).getKey();
+               dois[i] = model.getDoisPerYears().get(i).getValue();
+           }
+
+           final NumberAxis xAxis = new NumberAxis(years[0] - 1, years[years.length - 1] + 1, 1);
+           final NumberAxis yAxis = new NumberAxis();
+           final ScatterChart<Number, Number> sc = new ScatterChart<Number, Number>(xAxis, yAxis);
+
+           XYChart.Series series = new XYChart.Series();
+           for (int i = 0; i < years.length; i++) {
+               series.getData().add(new XYChart.Data(years[i], dois[i]));
+           }
+           sc.getData().addAll(series);
+           sc.setLegendVisible(false);
+
+           xAxis.setLabel("Year");
+           yAxis.setLabel("# Published ISOs");
+
+           vBox = new VBox(label1, label2, label3);
+           vBox.getChildren().addAll(sc);
+           vBox.setPrefHeight(400);
+           vBox.setPrefWidth(450);
+           vBox.setAlignment(Pos.TOP_CENTER);
+       }
+       PopOver popOver = new PopOver(vBox);
+       popOver.show(popOverButton);
     }
 
     @FXML
