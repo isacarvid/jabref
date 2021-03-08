@@ -29,8 +29,7 @@ public class JournalInfo {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        System.out.println(this.url.toString());
-        System.out.println(this.url);
+
 
     }
 
@@ -42,7 +41,6 @@ public class JournalInfo {
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
 
             int responseCode = con.getResponseCode();
-            System.out.println("GET Response Code :: " + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) { // success
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         con.getInputStream()));
@@ -52,10 +50,6 @@ public class JournalInfo {
                     response.append(inputLine);
                 }
                 in.close();
-                // print result
-                System.out.println(response.toString());
-            } else {
-                System.out.println("GET request not worked");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,7 +60,6 @@ public class JournalInfo {
         Gson gson = builder.create();
 
         JournalInfoModel journalInfoModel = gson.fromJson(response.toString(), JournalInfoModel.class);
-        System.out.println(gson.toJson(journalInfoModel));
         return journalInfoModel;
     }
 
