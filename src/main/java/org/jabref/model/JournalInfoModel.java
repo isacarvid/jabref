@@ -66,9 +66,11 @@ public class JournalInfoModel {
 
 
     public JournalInfoModel(){
-        this.status = "";
     }
 
+    public JournalInfoModel(String status){
+        this.status = status;
+    }
 
 
     private class Message {

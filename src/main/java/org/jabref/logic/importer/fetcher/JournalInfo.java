@@ -19,9 +19,10 @@ import java.util.Map;
 public class JournalInfo {
     private final String BASE_URL = "https://api.crossref.org/journals";
     private URL url;
-    private String title = null;
+    private String title;
 
     public JournalInfo(String title) throws MalformedURLException {
+        this.title = title;
         Map<String, String> parameters = new HashMap<>();
         parameters.put("query", title);
         try {
@@ -34,8 +35,8 @@ public class JournalInfo {
     }
 
     public JournalInfoModel getJournalFromAPI(){
-        if(this.title == null){
-            return new JournalInfoModel();
+        if(this.title.isEmpty()){
+            return new JournalInfoModel("");
         }
         StringBuffer response = new StringBuffer();
         try {

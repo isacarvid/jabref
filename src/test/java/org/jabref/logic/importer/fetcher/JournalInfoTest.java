@@ -59,6 +59,7 @@ public class JournalInfoTest {
     public void testMultipleDois() throws MalformedURLException {
         JournalInfo journalInfo = new JournalInfo("Nature Biomedical Engineering");
         JournalInfoModel journalInfoModel = journalInfo.getJournalFromAPI();
+
         assertEquals("ok", journalInfoModel.getStatus());
         assertEquals(journalInfoModel.getTitle(), "Nature Biomedical Engineering");
         assertEquals(journalInfoModel.getPublisher(), "Springer Science and Business Media LLC");
